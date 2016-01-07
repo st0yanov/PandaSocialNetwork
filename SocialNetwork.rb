@@ -1,4 +1,5 @@
-require_relative "panda"
+require 'set'
+require_relative 'panda'
 
 class PandaSocialNetwork
   def initialize
@@ -29,7 +30,27 @@ class PandaSocialNetwork
   end
 
   def connection_level(panda1, panda2)
+    return 1 if are_friends(panda1, panda2)
 
+    level, moved_through, friends_to_check = 0, [], [panda1]
+
+    until(moved_through.to_set == @network.to_set)
+      new_friends = []
+      friends_to_check.each do |friend|
+        unless moved_through.include? friend
+          if are_friends(friend, panda2)
+            return level+1
+          else
+            moved_through.push(friend)
+            new_friends.concat @friends[friend]
+          end
+        end
+      end
+      friends_to_check.clear.concat new_friends.uniq
+      level += 1
+    end
+
+    return -1
   end
 
   def are_connected(panda1, panda2)
