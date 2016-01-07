@@ -10,6 +10,7 @@ class PandaSocialNetwork
   def add_panda(panda)
     raise 'PandaAlreadyThere' if @network.include? panda
     @network.push(panda)
+    @friends[panda] = []
   end
 
   def has_panda(panda)
