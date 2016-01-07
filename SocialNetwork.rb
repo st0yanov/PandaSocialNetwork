@@ -33,7 +33,7 @@ class PandaSocialNetwork
   end
 
   def are_connected(panda1, panda2)
-
+    !(connection_level(panda1, panda2) == -1)
   end
 
   def how_many_gender_in_network(level, panda, gender)
