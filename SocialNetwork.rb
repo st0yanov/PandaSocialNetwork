@@ -1,6 +1,7 @@
 class PandaSocialNetwork
   def initialize
     @network = []
+    @friends = {}
   end
 
   def add_panda(panda)
@@ -12,6 +13,15 @@ class PandaSocialNetwork
   end
 
   def make_friends(panda1, panda2)
+
+    raise "PandasAlreadyFriends" if are_friends(panda1, panda2)
+
+    add_panda(panda1) if has_panda(panda1)
+    add_panda(panda2) if has_panda(panda2)
+
+    @friends[panda1].push(panda2) unless are_friends(panda1, panda2)
+    @friends[panda2].push(panda1) unless are_friends(panda1, panda2)
+    
 
   end
 
