@@ -1,10 +1,14 @@
+require_relative "panda"
+
 class PandaSocialNetwork
   def initialize
     @network = []
+    @friends = {}
   end
 
   def add_panda(panda)
-
+    raise 'PandaAlreadyThere' if @network.include? panda
+    @network.push(panda)
   end
 
   def has_panda(panda)
@@ -16,7 +20,7 @@ class PandaSocialNetwork
   end
 
   def are_friends(panda1, panda2)
-
+    @friends[panda1].include? panda2 and @friends[panda2].include? panda1
   end
 
   def friends_of(panda)
