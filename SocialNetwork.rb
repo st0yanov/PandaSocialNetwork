@@ -8,7 +8,7 @@ class PandaSocialNetwork
   end
 
   def has_panda(panda)
-
+    @network.include? panda
   end
 
   def make_friends(panda1, panda2)
