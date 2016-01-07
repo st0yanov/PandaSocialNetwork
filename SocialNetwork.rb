@@ -24,7 +24,8 @@ class PandaSocialNetwork
   end
 
   def friends_of(panda)
-
+    return false unless @network.include? panda
+    @friends[panda]
   end
 
   def connection_level(panda1, panda2)
