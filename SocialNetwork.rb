@@ -13,10 +13,18 @@ class PandaSocialNetwork
   end
 
   def has_panda(panda)
-
+    @network.include? panda
   end
 
   def make_friends(panda1, panda2)
+
+    raise "PandasAlreadyFriends" if are_friends(panda1, panda2)
+
+    add_panda(panda1) unless has_panda(panda1)
+    add_panda(panda2) unless has_panda(panda2)
+
+    @friends[panda1].push(panda2) unless are_friends(panda1, panda2)
+    @friends[panda2].push(panda1) unless are_friends(panda1, panda2)
 
   end
 
