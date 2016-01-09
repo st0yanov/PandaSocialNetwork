@@ -59,7 +59,7 @@ class PandaSocialNetwork
       level += 1
     end
 
-    return -1
+    -1
   end
 
   def are_connected(panda1, panda2)
@@ -67,6 +67,22 @@ class PandaSocialNetwork
   end
 
   def how_many_gender_in_network(level, panda, gender)
+    counter, pandas_to_check, people_counter = 0, [panda], 0
 
+    until counter == level
+      temp_pandas = []
+      pandas_to_check.each do |current_panda|
+        @friends[current_panda].each do |friend|
+          temp_pandas.push(friend)
+          if friend.gender == gender
+            people_counter += 1
+          end
+        end
+      end
+      pandas_to_check.clear.concat temp_pandas.uniq
+      counter += 1
+    end
+
+    people_counter
   end
 end
