@@ -17,12 +17,16 @@ class Panda
 		"#{name} #{email} #{gender}"
 	end
 
-	def to_h
-		{name: name, email: email, gender: gender}
+	def hash
+		to_s.hash
 	end
 
 	def ==(other)
-		name == other.name and email == other.email and gender == other.gender
+		hash == other.hash
 	end
 
+	def self.to_o(string)
+		data = string.split(' ')
+    Panda.new(data[0], data[1], data[2])
+	end
 end
