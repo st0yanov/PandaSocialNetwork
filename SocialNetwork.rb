@@ -1,4 +1,5 @@
 require 'set'
+require 'json'
 require_relative 'panda'
 
 class PandaSocialNetwork
@@ -84,5 +85,10 @@ class PandaSocialNetwork
     end
 
     people_counter
+  end
+
+  def save(filename)
+    data = JSON.generate({ :network => @network, :friends => @friends })
+    File.open(filename, 'w') { |file| file.write(data) }
   end
 end
