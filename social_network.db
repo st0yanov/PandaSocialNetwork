@@ -1,0 +1,1 @@
+{"network":["Ivo ivo@pandamail.com male","Rado rado@pandamail.com male","Tony tony@pandamail.com female"],"friends":{"Ivo ivo@pandamail.com male":["Rado rado@pandamail.com male"],"Rado rado@pandamail.com male":["Ivo ivo@pandamail.com male","Tony tony@pandamail.com female"],"Tony tony@pandamail.com female":["Rado rado@pandamail.com male"]}}

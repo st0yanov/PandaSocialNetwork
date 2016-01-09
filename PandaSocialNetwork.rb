@@ -1,10 +1,12 @@
 require 'set'
-require_relative 'panda'
+require 'json'
+require_relative 'Panda'
 
 class PandaSocialNetwork
-  def initialize
-    @network = []
-    @friends = {}
+  attr_accessor :network, :friends
+
+  def initialize(network = [], friends = {})
+    @network, @friends = network, friends
   end
 
   def add_panda(panda)
@@ -18,7 +20,6 @@ class PandaSocialNetwork
   end
 
   def make_friends(panda1, panda2)
-
     raise "PandasAlreadyFriends" if are_friends(panda1, panda2)
 
     add_panda(panda1) unless has_panda(panda1)
@@ -26,10 +27,10 @@ class PandaSocialNetwork
 
     @friends[panda1].push(panda2) unless are_friends(panda1, panda2)
     @friends[panda2].push(panda1) unless are_friends(panda1, panda2)
-
   end
 
   def are_friends(panda1, panda2)
+    return false if @friends[panda1].nil? or @friends[panda2].nil?
     @friends[panda1].include? panda2 and @friends[panda2].include? panda1
   end
 
@@ -84,5 +85,49 @@ class PandaSocialNetwork
     end
 
     people_counter
+  end
+
+  def save(filename)
+    data = JSON.generate({ :network => @network, :friends => @friends })
+    File.open(filename, 'w') { |file| file.write(data) }
+  end
+
+  def self.load(filename)
+    json = File.read(filename)
+    data = JSON.parse(json)
+
+    social_network = PandaSocialNetwork.new
+
+    data['friends'].each do |panda, friends|
+      begin
+        search_panda = social_network.find_panda(panda)
+      rescue
+        search_panda = Panda::to_o(panda)
+      end
+
+      friends.each do |friend|
+        begin
+          friend_panda = social_network.find_panda(friend)
+        rescue
+          friend_panda = Panda::to_o(friend)
+        end
+
+        begin
+          social_network.make_friends(search_panda, friend_panda)
+        rescue
+
+        end
+      end
+    end
+
+    social_network
+  end
+
+  def find_panda(string)
+    @network.each do |panda|
+      return panda if panda.to_s == string
+    end
+
+    raise "PandaNotFound"
   end
 end
