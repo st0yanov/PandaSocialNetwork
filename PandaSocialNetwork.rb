@@ -1,6 +1,6 @@
 require 'set'
-require 'json'
 require_relative 'Panda'
+require_relative 'PandaDatabase'
 
 class PandaSocialNetwork
   attr_accessor :network, :friends
@@ -87,40 +87,13 @@ class PandaSocialNetwork
     people_counter
   end
 
-  def save(filename)
-    data = JSON.generate({ :network => @network, :friends => @friends })
-    File.open(filename, 'w') { |file| file.write(data) }
+  def save(filename, classname = JSONDatabase)
+    data = { :network => @network, :friends => @friends }
+    PandaDatabase::save(classname, data, filename)
   end
 
-  def self.load(filename)
-    json = File.read(filename)
-    data = JSON.parse(json)
-
-    social_network = PandaSocialNetwork.new
-
-    data['friends'].each do |panda, friends|
-      begin
-        search_panda = social_network.find_panda(panda)
-      rescue
-        search_panda = Panda::to_o(panda)
-      end
-
-      friends.each do |friend|
-        begin
-          friend_panda = social_network.find_panda(friend)
-        rescue
-          friend_panda = Panda::to_o(friend)
-        end
-
-        begin
-          social_network.make_friends(search_panda, friend_panda)
-        rescue
-
-        end
-      end
-    end
-
-    social_network
+  def self.load(filename, classname = JSONDatabase)
+    PandaDatabase::load(classname, filename)
   end
 
   def find_panda(string)
