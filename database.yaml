@@ -1,0 +1,31 @@
+---
+:network:
+- &1 !ruby/object:Panda
+  name: Ivo
+  email: ivo@pandamail.com
+  gender: male
+- &2 !ruby/object:Panda
+  name: Rado
+  email: rado@pandamail.com
+  gender: male
+- &4 !ruby/object:Panda
+  name: Tony
+  email: tony@pandamail.com
+  gender: female
+- &3 !ruby/object:Panda
+  name: Pesho
+  email: pesho@pandamail.com
+  gender: male
+:friends:
+  *1:
+  - *2
+  - *3
+  *2:
+  - *1
+  - *4
+  - *3
+  *4:
+  - *2
+  *3:
+  - *1
+  - *2
